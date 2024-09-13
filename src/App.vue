@@ -1,233 +1,335 @@
 <template>
-  <ion-app>
-    <ion-split-pane content-id="main-content">
-      <ion-menu content-id="main-content" type="overlay">
-        <ion-content>
-          <ion-list id="inbox-list">
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
+	<ion-app>
+		<ion-menu
+			content-id="main-content"
+			type="overlay">
+			<ion-content>
+				<ion-list id="inbox-list">
+					<ion-list-header>
+						<ion-avatar>
+							<img
+								alt="Silhouette of a person's head"
+								src="../src/assets/icons/Tzuyu.png" />
+						</ion-avatar>
+						<ion-label>
+							<div class="points">
+								<img
+									alt="crown"
+									src="../src/assets/icons/crown.svg" />
+								<h3>0 points</h3>
+								<img
+									alt="arrow"
+									src="../src/assets/icons/Vector.svg" />
+							</div>
+						</ion-label>
+					</ion-list-header>
+					<ion-note>
+						<h1>Chou Tzuyu</h1>
+						<p>+63 912 345 6789</p>
+					</ion-note>
+					<ion-menu-toggle
+						:auto-hide="false"
+						v-for="(p, i) in appPages"
+						:key="i">
+						<ion-item
+							@click="selectedIndex = i"
+							router-direction="root"
+							:router-link="p.url"
+							lines="none"
+							:detail="false"
+							class="hydrated"
+							:class="{ selected: selectedIndex === i }">
+							<ion-icon
+								aria-hidden="true"
+								slot="start"
+								:ios="p.iosIcon"
+								:md="p.mdIcon"></ion-icon>
+							<ion-label>{{ p.title }}</ion-label>
+						</ion-item>
+					</ion-menu-toggle>
+				</ion-list>
 
-            <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
-                <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          </ion-list>
+				<ion-list id="labels-list">
+					<ion-menu-toggle
+						:auto-hide="false"
+						v-for="(p, i) in labels"
+						:key="i">
+						<ion-item
+							router-direction="root"
+							lines="none"
+							:detail="false"
+							class="hydrated">
+							<ion-icon
+								aria-hidden="true"
+								slot="start"
+								:ios="p.iosIcon"
+								:md="p.mdIcon"></ion-icon>
+							<ion-label>{{ p.title }}</ion-label>
+						</ion-item>
+					</ion-menu-toggle>
+				</ion-list>
+				<ion-button>Logout</ion-button>
+			</ion-content>
+		</ion-menu>
 
-          <ion-list id="labels-list">
-            <ion-list-header>Labels</ion-list-header>
-
-            <ion-item v-for="(label, index) in labels" lines="none" :key="index">
-              <ion-icon aria-hidden="true" slot="start" :ios="bookmarkOutline" :md="bookmarkSharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-content>
-      </ion-menu>
-      <ion-router-outlet id="main-content"></ion-router-outlet>
-    </ion-split-pane>
-  </ion-app>
+		<ion-router-outlet id="main-content"></ion-router-outlet>
+	</ion-app>
 </template>
 
 <script setup>
-import {
-  IonApp,
-  IonContent,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonMenu,
-  IonMenuToggle,
-  IonNote,
-  IonRouterOutlet,
-  IonSplitPane,
-} from '@ionic/vue';
-import { ref } from 'vue';
-import {
-  archiveOutline,
-  archiveSharp,
-  bookmarkOutline,
-  bookmarkSharp,
-  heartOutline,
-  heartSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
-  trashOutline,
-  trashSharp,
-  warningOutline,
-  warningSharp,
-} from 'ionicons/icons';
+	import {
+		IonApp,
+		IonContent,
+		IonIcon,
+		IonItem,
+		IonLabel,
+		IonList,
+		IonListHeader,
+		IonMenu,
+		IonMenuToggle,
+		IonNote,
+		IonRouterOutlet,
+		IonButton,
+	} from '@ionic/vue'
+	import { ref } from 'vue'
+	import customBell from '@/assets/icons/bell.svg'
+	import customChicken from '@/assets/icons/chicken.svg'
+	import customFavorite from '@/assets/icons/favorite.svg'
+	import customHistory from '@/assets/icons/history.svg'
+	import customLocation from '@/assets/icons/location.svg'
+	import customLogo from '@/assets/icons/logo.svg'
+	import customQuestionMark from '@/assets/icons/question-mark-circle.svg'
+	import customShoppingBag from '@/assets/icons/shopping-bag-alt.svg'
+	import customStore from '@/assets/icons/store-alt.svg'
+	import customSilhoutte from '@/assets/icons/silhouette.svg'
 
-const selectedIndex = ref(0);
-const appPages = [
-  {
-    title: 'Inbox',
-    url: '/folder/Inbox',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
-  },
-  {
-    title: 'Outbox',
-    url: '/folder/Outbox',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
-  },
-  {
-    title: 'Favorites',
-    url: '/folder/Favorites',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp,
-  },
-  {
-    title: 'Archived',
-    url: '/folder/Archived',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp,
-  },
-  {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp,
-  },
-  {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  },
-];
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+	const selectedIndex = ref(0)
+	const appPages = [
+		{
+			title: 'Home',
+			url: '/home',
+			iosIcon: customLogo,
+			mdIcon: customLogo,
+		},
+		{
+			title: 'Order Now!',
+			url: '/products',
+			iosIcon: customChicken,
+			mdIcon: customChicken,
+		},
+		{
+			title: 'Notifications',
+			url: '/notifications',
+			iosIcon: customBell,
+			mdIcon: customBell,
+		},
+		{
+			title: 'Store Locator',
+			url: '/store',
+			iosIcon: customStore,
+			mdIcon: customStore,
+		},
+		{
+			title: "FAQ's",
+			url: '/faq',
+			iosIcon: customQuestionMark,
+			mdIcon: customQuestionMark,
+		},
+	]
+	const labels = [
+		{
+			title: 'My Order',
+			iosIcon: customShoppingBag,
+			mdIcon: customShoppingBag,
+		},
+		{
+			title: 'My Account',
+			iosIcon: customSilhoutte,
+			mdIcon: customSilhoutte,
+		},
+		{
+			title: 'My Favorites',
+			iosIcon: customFavorite,
+			mdIcon: customFavorite,
+		},
+		{
+			title: 'Order Tracker',
+			iosIcon: customLocation,
+			mdIcon: customLocation,
+		},
+		{
+			title: 'Order History',
+			iosIcon: customHistory,
+			mdIcon: customHistory,
+		},
+	]
 
-const path = window.location.pathname.split('folder/')[1];
-if (path !== undefined) {
-  selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
-}
+	const path = window.location.pathname
+	if (path !== undefined) {
+		if (selectedIndex.value > 1) {
+			selectedIndex.value = 0
+		}
+		selectedIndex.value = appPages.findIndex(
+			(page) => page.title.toLowerCase() === path.toLowerCase()
+		)
+	}
 </script>
 
 <style scoped>
-ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
-}
+	.points {
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+	.points h3 {
+		font-weight: 700;
+		font-size: 16px;
+	}
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
-}
+	ion-menu ion-content {
+		--background: var(--ion-item-background, var(--ion-background-color, #fff));
+	}
 
-ion-menu.md ion-list {
-  padding: 20px 0;
-}
+	ion-menu.md ion-content {
+		--padding-start: 8px;
+		--padding-end: 8px;
+		--padding-top: 20px;
+		--padding-bottom: 20px;
+	}
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
-}
+	ion-menu.md ion-list {
+		padding: 0px 0px 0px 0px;
+	}
 
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
-}
+	ion-menu.md ion-note h1,
+	p {
+		margin: 0px;
+	}
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
-}
+	ion-menu.md ion-note h1 {
+		margin-top: 10px;
+		font-weight: 700;
+		color: #000;
+	}
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
+	ion-menu.md ion-note p {
+		font-weight: 400;
+		font-size: 14px;
+		color: #6c757d;
+		font-style: Nunito;
+	}
 
-  min-height: 20px;
-}
+	ion-menu.md ion-list-header,
+	ion-menu.md ion-note {
+		padding-left: 10px;
+	}
 
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
+	ion-menu.md ion-list#inbox-list {
+		border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+	}
 
-  margin-bottom: 18px;
+	ion-menu.md ion-list#inbox-list ion-list-header {
+		font-size: 22px;
+		font-weight: 1000;
+		min-height: 20px;
+		color: black;
+	}
 
-  color: #757575;
+	ion-menu.md ion-list#labels-list ion-list-header {
+		font-size: 16px;
+		margin-bottom: 18px;
+		color: #757575;
+		min-height: 26px;
+	}
 
-  min-height: 26px;
-}
+	ion-menu.md ion-item {
+		--padding-start: 10px;
+		--padding-end: 10px;
+		border-radius: 4px;
+	}
 
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
-}
+	ion-menu.md ion-item.selected ion-icon {
+		color: #d71921;
+		fill: #d71921;
+	}
 
-ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
-}
+	ion-menu.md ion-item ion-icon {
+		color: #dee2e6;
+	}
 
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
+	ion-menu.md ion-item ion-label {
+		font-weight: 700;
+		font-size: 14px;
+	}
 
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
-}
+	ion-menu.ios ion-content {
+		--padding-bottom: 20px;
+	}
 
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
-}
+	ion-menu.ios ion-list {
+		padding: 20px;
+	}
 
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
-}
+	ion-menu.ios ion-note {
+		line-height: 24px;
+		margin-bottom: 20px;
+	}
 
-ion-menu.ios ion-list {
-  padding: 20px 0 0 0;
-}
+	ion-menu.ios ion-item {
+		--padding-start: 16px;
+		--padding-end: 16px;
+		--min-height: 50px;
+	}
 
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
-}
+	ion-menu.ios ion-item.selected ion-icon {
+		color: #d71921;
+		fill: #d71921;
+	}
 
-ion-menu.ios ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --min-height: 50px;
-}
+	ion-menu.ios ion-item ion-icon {
+		color: #dee2e6;
+		fill: #dee2e6;
+	}
 
-ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
+	ion-menu.ios ion-list#labels-list ion-list-header {
+		margin-bottom: 8px;
+	}
 
-ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
-  color: #73849a;
-}
+	ion-menu.ios ion-list-header,
+	ion-menu.ios ion-note {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
 
-ion-menu.ios ion-list#labels-list ion-list-header {
-  margin-bottom: 8px;
-}
+	ion-menu.ios ion-note {
+		margin-bottom: 8px;
+	}
 
-ion-menu.ios ion-list-header,
-ion-menu.ios ion-note {
-  padding-left: 16px;
-  padding-right: 16px;
-}
+	ion-note {
+		display: inline-block;
+		font-size: 16px;
+		color: var(--ion-color-medium-shade);
+	}
 
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
-}
+	ion-item.selected {
+		--color: #d71921;
+	}
 
-ion-note {
-  display: inline-block;
-  font-size: 16px;
+	ion-button {
+		margin-top: 50px;
+		--background: #d71921;
 
-  color: var(--ion-color-medium-shade);
-}
+		--width: 165px;
+		--color: white;
+		text-transform: none;
+		--border-radius: 16px;
+		--border-color: #d71921;
+		--border-style: solid;
+		--border-width: 1px;
 
-ion-item.selected {
-  --color: var(--ion-color-primary);
-}
+		--padding-top: 16px;
+		--padding-bottom: 15px;
+		--padding-end: 50px;
+		--padding-start: 50px;
+	}
 </style>

@@ -1,19 +1,23 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
+import { createRouter, createWebHistory } from '@ionic/vue-router'
 
 const routes = [
-  {
-    path: '',
-    redirect: '/folder/Inbox'
-  },
-  {
-    path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue')
-  }
+	{
+		path: '',
+		redirect: '/home',
+	},
+	{
+		path: '/home',
+		component: () => import('../views/HomescreenPage.vue'),
+	},
+	{
+		path: '/products',
+		component: () => import('../views/ProductsPage.vue'),
+	},
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes,
 })
 
 export default router
