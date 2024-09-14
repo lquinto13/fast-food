@@ -21,7 +21,6 @@
 					:src="customFilter"></ion-icon>
 			</ion-item>
 		</div>
-		<!-- Slider main container -->
 		<swiper
 			:slidesPerView="4"
 			:spaceBetween="4"
@@ -37,70 +36,20 @@
 		<ion-grid>
 			<ion-row>
 				<ion-col
-					><ion-card>
+					v-for="(product, index) in products"
+					:key="index"
+					size="6">
+					<ion-card @click="goToProductDetail(product.id)">
 						<ion-card-header>
 							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/steak-fries-veggies.png" />
-							<ion-card-title>Steak Fries Veggies</ion-card-title>
-							<ion-card-subtitle>Meat</ion-card-subtitle>
+								alt="Food"
+								:src="product.image" />
+							<ion-card-title>{{ product.title }}</ion-card-title>
+							<ion-card-subtitle>{{ product.subtitle }}</ion-card-subtitle>
 						</ion-card-header>
 						<ion-card-content>
 							<div class="price">
-								<h3>P 175</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/chicken.png" />
-							<ion-card-title>Chicken Salad</ion-card-title>
-							<ion-card-subtitle>Chicken</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 172</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-			</ion-row>
-			<ion-row>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/steak-fries-veggies.png" />
-							<ion-card-title>Sorvetes Primavera</ion-card-title>
-							<ion-card-subtitle>Dessert</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 185</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/chicken.png" />
-							<ion-card-title>Fried Chicken</ion-card-title>
-							<ion-card-subtitle>Chicken</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 175</h3>
+								<h3>P {{ product.price }}</h3>
 								<span>*****</span>
 							</div>
 						</ion-card-content>
@@ -112,16 +61,26 @@
 </template>
 
 <script setup>
-	// import Swiper bundle with all modules installed
 	import { ref } from 'vue'
 	import { Swiper, SwiperSlide } from 'swiper/vue'
 	import bag from '@/assets/icons/shopping-bag-alt.svg'
 	import customSearch from '@/assets/icons/search.svg'
 	import customFilter from '@/assets/icons/filter.svg'
 	import 'swiper/css'
+	import { useRouter } from 'vue-router'
+	import { computed } from 'vue'
+	import { useStore } from 'vuex'
+
+	const store = useStore()
+	const products = computed(() => store.getters.products)
 
 	const selectedIndex = ref(0)
 	const buttons = ['All', 'Breakfast', 'Chicken', 'Seafood', 'Meat']
+	const router = useRouter()
+
+	function goToProductDetail(id) {
+		router.push({ name: 'AddToBagPage', params: { id } })
+	}
 </script>
 
 <style scoped>
@@ -138,8 +97,6 @@
 	.swiper-slide {
 		text-align: center;
 		font-size: 18px;
-
-		/* Center slide text vertically */
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -148,6 +105,7 @@
 		--background: #d71921;
 		--color: white;
 	}
+
 	ion-icon {
 		width: 27px;
 		height: 27px;
@@ -192,6 +150,9 @@
 		padding-left: 2px;
 	}
 
+	.no-link-style {
+		text-decoration: none;
+	}
 	ion-card {
 		--background: #e9ecef;
 		--color: #000000;
@@ -204,7 +165,11 @@
 		padding-top: 24px;
 		height: 273px;
 	}
-
+	ion-card img {
+		padding-bottom: 24px;
+		width: 136px;
+		height: 136px;
+	}
 	ion-card-header {
 		display: flex;
 		flex-direction: column;
@@ -213,7 +178,8 @@
 	}
 
 	ion-row {
-		grid-gap: 2px; /* Add gap between columns */
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	ion-card-title {

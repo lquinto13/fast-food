@@ -22,7 +22,8 @@
     "ionicons": "^7.0.0",
     "swiper": "^11.1.14",
     "vue": "^3.3.0",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@capacitor/cli": "6.1.2",

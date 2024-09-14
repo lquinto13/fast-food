@@ -13,6 +13,12 @@ const routes = [
 		path: '/products',
 		component: () => import('../views/ProductsPage.vue'),
 	},
+	{
+		path: '/products/:id',
+		name: 'AddToBagPage',
+		component: () => import('../views/AddToBagPage.vue'),
+		props: (route) => ({ id: Number(route.params.id) }),
+	},
 ]
 
 const router = createRouter({
