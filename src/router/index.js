@@ -31,6 +31,11 @@ const routes = [
 		name: 'OrderReceivedPage',
 		component: () => import('../views/OrderReceivedPage.vue'),
 	},
+	{
+		path: '/loyalty',
+		name: 'LoyaltyPage',
+		component: () => import('../views/LoyaltyPage.vue'),
+	},
 ]
 
 const router = createRouter({

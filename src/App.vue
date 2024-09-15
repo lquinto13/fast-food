@@ -1,6 +1,7 @@
 <template>
 	<ion-app>
 		<ion-menu
+			ref="menu"
 			content-id="main-content"
 			type="overlay">
 			<ion-content>
@@ -11,16 +12,18 @@
 								alt="Silhouette of a person's head"
 								src="../src/assets/icons/Tzuyu.png" />
 						</ion-avatar>
-						<ion-label>
-							<div class="points">
-								<img
-									alt="crown"
-									src="../src/assets/icons/crown.svg" />
-								<h3>0 points</h3>
-								<img
-									alt="arrow"
-									src="../src/assets/icons/Vector.svg" />
-							</div>
+						<ion-label @click="goToLoyalty">
+							<ion-menu-toggle>
+								<div class="points">
+									<img
+										alt="crown"
+										src="../src/assets/icons/crown.svg" />
+									<h3>0 points</h3>
+									<img
+										alt="arrow"
+										src="../src/assets/icons/Vector.svg" />
+								</div>
+							</ion-menu-toggle>
 						</ion-label>
 					</ion-list-header>
 					<ion-note>
@@ -102,6 +105,9 @@
 	import customShoppingBag from '@/assets/icons/shopping-bag-alt.svg'
 	import customStore from '@/assets/icons/store-alt.svg'
 	import customSilhoutte from '@/assets/icons/silhouette.svg'
+	import { useRouter } from 'vue-router'
+	const router = useRouter()
+	const menu = ref(null)
 
 	const selectedIndex = ref(0)
 	const appPages = [
@@ -136,6 +142,7 @@
 			mdIcon: customQuestionMark,
 		},
 	]
+
 	const labels = [
 		{
 			title: 'My Order',
@@ -173,6 +180,10 @@
 			(page) => page.title.toLowerCase() === path.toLowerCase()
 		)
 	}
+	function goToLoyalty() {
+		selectedIndex.value = 0
+		router.push({ name: 'LoyaltyPage' })
+	}
 </script>
 
 <style scoped>
@@ -199,6 +210,11 @@
 
 	ion-menu.md ion-list {
 		padding: 0px 0px 0px 0px;
+	}
+
+	ion-menu.md ion-note h1,
+	p {
+		margin: 0px;
 	}
 
 	ion-menu.md ion-note h1 {

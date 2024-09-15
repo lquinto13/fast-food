@@ -265,9 +265,7 @@
 	const router = useRouter()
 
 	const onDrag = (event) => {
-		console.log(event.detail.ratio)
 		isSliding.value = event.detail.ratio > 0.1
-		console.log(isSliding.value)
 	}
 
 	function goToReceived() {
