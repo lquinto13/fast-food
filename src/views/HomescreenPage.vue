@@ -226,7 +226,6 @@
 	}
 	.welcome h1,
 	p {
-		margin: 0px;
 		width: 100%;
 	}
 
@@ -269,7 +268,6 @@
 	.popular h2 {
 		font-size: 20px;
 		font-weight: 700;
-		margin: 0px;
 	}
 
 	.special-offer-heading {

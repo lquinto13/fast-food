@@ -201,11 +201,6 @@
 		padding: 0px 0px 0px 0px;
 	}
 
-	ion-menu.md ion-note h1,
-	p {
-		margin: 0px;
-	}
-
 	ion-menu.md ion-note h1 {
 		margin-top: 10px;
 		font-weight: 700;

@@ -104,24 +104,54 @@
 				</ion-radio-group>
 			</ion-list>
 		</div>
-		<ion-button slot="fixed">Add To Bag</ion-button>
+		<ion-button
+			slot="fixed"
+			id="open-custom-dialog"
+			expand="block"
+			>Add To Bag</ion-button
+		>
+
+		<ion-modal
+			id="example-modal"
+			ref="modal"
+			trigger="open-custom-dialog">
+			<div class="wrapper">
+				<img
+					alt="positive"
+					src="../assets/images/positive-vote.png" />
+				<h3>Succesfully added</h3>
+				<p>What do you want to do now?</p>
+				<ion-button @click="goToCheckout">Proceed to Checkout</ion-button>
+				<h5>Add More</h5>
+			</div>
+		</ion-modal>
 	</base-layout-back>
 </template>
 
 <script setup>
 	import { computed, ref } from 'vue'
 	import { useStore } from 'vuex'
-	import { useRoute } from 'vue-router'
+	import { useRoute, useRouter } from 'vue-router'
+	import { IonModal, IonItem, IonLabel, IonIcon, IonList } from '@ionic/vue'
 
 	import bag from '@/assets/icons/shopping-bag-alt.svg'
 	import heart from '@/assets/icons/heart.svg'
 	import toggle from '@/assets/icons/chevron-down.svg'
+	const route = useRoute()
+
 	const selectedIndex = ref(0)
 	const store = useStore()
-	const route = useRoute()
 	const productId = parseInt(route.params.id)
 	const product = computed(() => store.getters.getProductById(productId))
 	const sizes = ['Regular', 'Large', 'X-Large']
+
+	const router = useRouter()
+
+	function goToCheckout() {
+		router.push({ name: 'CheckoutPage' })
+		const modal = document.getElementById('example-modal')
+		modal.dismiss()
+	}
 </script>
 
 <style scoped>
@@ -200,6 +230,7 @@
 	}
 
 	.price-container {
+		margin-top: 24px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -236,6 +267,8 @@
 	}
 	.beverages h2,
 	.add-ons h2 {
+		margin-top: 24px;
+		margin-bottom: 12px;
 		font-weight: 700;
 		font-size: 20px;
 	}
@@ -295,12 +328,6 @@
 	}
 	.label {
 		width: 100%;
-	}
-	.label h6,
-	.label p,
-	.label h5 {
-		padding: 0;
-		margin: 0;
 	}
 
 	.label p {
@@ -364,5 +391,61 @@
 		height: 60px;
 		--background: #d71921;
 		color: white;
+	}
+
+	ion-modal#example-modal {
+		--width: fit-content;
+		--min-width: 330px;
+		--height: fit-content;
+		--border-radius: 6px;
+		--box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+	}
+
+	ion-modal#example-modal h1 {
+		margin: 20px 20px 10px 20px;
+	}
+
+	ion-modal#example-modal ion-icon {
+		margin-right: 6px;
+		width: 48px;
+		height: 48px;
+		padding: 4px 0;
+		color: #aaaaaa;
+	}
+
+	ion-modal#example-modal .wrapper {
+		margin-bottom: 10px;
+	}
+
+	.wrapper {
+		padding: 12px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.wrapper h3 {
+		padding: 1.25rem;
+		font-weight: 700;
+		font-size: 24px;
+	}
+
+	.wrapper p {
+		padding-bottom: 1rem;
+		color: #6c757d;
+		font-weight: 400;
+	}
+
+	.wrapper ion-button {
+		--background: #d71921;
+		color: white;
+		--background-activated: #c6151e;
+	}
+
+	.wrapper h5 {
+		color: #d71921;
+		font-weight: 700;
+		font-size: 14px;
 	}
 </style>

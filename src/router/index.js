@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from '@ionic/vue-router'
 
 const routes = [
 	{
-		path: '',
+		path: '/',
 		redirect: '/home',
 	},
 	{
 		path: '/home',
+		name: 'HomePage',
+
 		component: () => import('../views/HomescreenPage.vue'),
 	},
 	{
@@ -18,6 +20,16 @@ const routes = [
 		name: 'AddToBagPage',
 		component: () => import('../views/AddToBagPage.vue'),
 		props: (route) => ({ id: Number(route.params.id) }),
+	},
+	{
+		path: '/checkout',
+		name: 'CheckoutPage',
+		component: () => import('../views/CheckoutPage.vue'),
+	},
+	{
+		path: '/order-received',
+		name: 'OrderReceivedPage',
+		component: () => import('../views/OrderReceivedPage.vue'),
 	},
 ]
 

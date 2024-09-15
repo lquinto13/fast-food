@@ -158,7 +158,6 @@
 		--color: #000000;
 		width: 100%;
 		box-sizing: border-box;
-		margin: 0;
 		box-shadow: none;
 		font-weight: none;
 		border-radius: 24px;
@@ -187,8 +186,6 @@
 		--color: #000000;
 		font-size: 14px;
 		font-weight: 700;
-		margin: 0;
-		padding: 0;
 	}
 
 	ion-card-subtitle {
