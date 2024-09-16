@@ -382,6 +382,7 @@
 		flex-direction: column;
 		justify-content: end;
 		align-items: end;
+		gap: 12px;
 	}
 
 	ion-button[slot='fixed'] {

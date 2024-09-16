@@ -5,12 +5,14 @@
 			content-id="main-content"
 			type="overlay">
 			<ion-content>
-				<ion-list id="inbox-list">
+				<ion-list
+					id="inbox-list"
+					v-if="user">
 					<ion-list-header>
 						<ion-avatar>
 							<img
 								alt="Silhouette of a person's head"
-								src="../src/assets/icons/Tzuyu.png" />
+								:src="user.profile_picture" />
 						</ion-avatar>
 						<ion-label @click="goToLoyalty">
 							<ion-menu-toggle>
@@ -18,7 +20,7 @@
 									<img
 										alt="crown"
 										src="../src/assets/icons/crown.svg" />
-									<h3>0 points</h3>
+									<h3>{{ user.points }} points</h3>
 									<img
 										alt="arrow"
 										src="../src/assets/icons/Vector.svg" />
@@ -27,8 +29,8 @@
 						</ion-label>
 					</ion-list-header>
 					<ion-note>
-						<h1>Chou Tzuyu</h1>
-						<p>+63 912 345 6789</p>
+						<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+						<p>+{{ user.phone_number }}</p>
 					</ion-note>
 					<ion-menu-toggle
 						:auto-hide="false"
@@ -48,6 +50,11 @@
 								:ios="p.iosIcon"
 								:md="p.mdIcon"></ion-icon>
 							<ion-label>{{ p.title }}</ion-label>
+							<ion-label
+								v-if="i === 2"
+								class="notif-icon">
+								<h6>{{ user.notification }}</h6>
+							</ion-label>
 						</ion-item>
 					</ion-menu-toggle>
 				</ion-list>
@@ -68,6 +75,11 @@
 								:ios="p.iosIcon"
 								:md="p.mdIcon"></ion-icon>
 							<ion-label>{{ p.title }}</ion-label>
+							<ion-label
+								v-if="i === 0"
+								class="notif-icon">
+								<h6>{{ user.orders }}</h6>
+							</ion-label>
 						</ion-item>
 					</ion-menu-toggle>
 				</ion-list>
@@ -106,8 +118,13 @@
 	import customStore from '@/assets/icons/store-alt.svg'
 	import customSilhoutte from '@/assets/icons/silhouette.svg'
 	import { useRouter } from 'vue-router'
+	import { computed } from 'vue'
+	import { useStore } from 'vuex'
+	const store = useStore()
+
 	const router = useRouter()
 	const menu = ref(null)
+	const user = computed(() => store.getters.getUser)
 
 	const selectedIndex = ref(0)
 	const appPages = [
@@ -254,6 +271,9 @@
 	}
 
 	ion-menu.md ion-item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		--padding-start: 10px;
 		--padding-end: 10px;
 		border-radius: 4px;
@@ -342,5 +362,24 @@
 		--padding-bottom: 15px;
 		--padding-end: 50px;
 		--padding-start: 50px;
+	}
+
+	.notif-icon {
+		margin-top: 14px;
+		margin-right: 24px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 20px;
+		height: 20px;
+		background-color: #edbe4c;
+		border: 1px solid #edbe4c;
+		border-radius: 100%;
+	}
+
+	.notif-icon h6 {
+		color: white;
+		font-weight: 400;
+		font-size: 10px;
 	}
 </style>

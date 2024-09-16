@@ -2,7 +2,9 @@
 	<base-layout>
 		<template #header-title>
 			<ion-label>
-				<div class="header-container">
+				<div
+					class="header-container"
+					v-if="user">
 					<div class="points">
 						<img
 							alt="crown"
@@ -16,7 +18,7 @@
 					<ion-avatar>
 						<img
 							alt="profile"
-							src="../assets/icons/Tzuyu.png" />
+							:src="user.profile_picture" />
 					</ion-avatar>
 				</div>
 			</ion-label>
@@ -67,12 +69,18 @@
 				<h2>Category</h2>
 			</div>
 			<div class="offers">
-				<img
-					alt="category_1"
-					src="../assets/images/category_1.png" />
-				<img
-					alt="category_1"
-					src="../assets/images/category_1.png" />
+				<div class="offer-item">
+					<img
+						alt="category_1"
+						src="../assets/images/category_1.png" />
+					<div class="offer-text">Offer 1</div>
+				</div>
+				<div class="offer-item">
+					<img
+						alt="category_2"
+						src="../assets/images/category_1.png" />
+					<div class="offer-text">Offer 2</div>
+				</div>
 			</div>
 		</div>
 
@@ -95,78 +103,41 @@
 		<ion-grid>
 			<ion-row>
 				<ion-col
+					v-for="(product, index) in products"
+					:key="index"
+					size="6"
 					><ion-card>
 						<ion-card-header>
 							<img
 								alt="Silhouette of mountains"
-								src="../assets/images/steak-fries-veggies.png" />
-							<ion-card-title>Steak Fries Veggies</ion-card-title>
+								:src="product.image" />
+							<ion-card-title>{{ product.title }}</ion-card-title>
 
-							<ion-card-subtitle>Meat</ion-card-subtitle>
+							<ion-card-subtitle>{{ product.subtitle }}</ion-card-subtitle>
 						</ion-card-header>
 						<ion-card-content>
 							<div class="price">
-								<h3>P 175</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/chicken.png" />
-							<ion-card-title>Chicken Salad</ion-card-title>
-							<ion-card-subtitle>Chicken</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 172</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-			</ion-row>
-			<ion-row>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/steak-fries-veggies.png" />
-							<ion-card-title>Sorvetes Primavera</ion-card-title>
-							<ion-card-subtitle>Dessert</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 185</h3>
-								<span>*****</span>
-							</div>
-						</ion-card-content>
-					</ion-card>
-				</ion-col>
-				<ion-col
-					><ion-card>
-						<ion-card-header>
-							<img
-								alt="Silhouette of mountains"
-								src="../assets/images/chicken.png" />
-							<ion-card-title>Fried Chicken</ion-card-title>
-							<ion-card-subtitle>Chicken</ion-card-subtitle>
-						</ion-card-header>
-						<ion-card-content>
-							<div class="price">
-								<h3>P 175</h3>
-								<span>*****</span>
+								<h3>P {{ product.price }}</h3>
+								<span
+									><ion-icon
+										slot="end"
+										class="rating-icon"
+										:src="rating"></ion-icon
+								></span>
 							</div>
 						</ion-card-content>
 					</ion-card>
 				</ion-col>
 			</ion-row>
 		</ion-grid>
+
+		<ion-button
+			@click="goToProducts"
+			slot="fixed"
+			id="open-custom-dialog"
+			expand="block"
+			>Order Now!</ion-button
+		>
 	</base-layout>
 </template>
 
@@ -181,6 +152,19 @@
 		IonRow,
 	} from '@ionic/vue'
 	import customSearch from '@/assets/icons/search.svg'
+	import { computed } from 'vue'
+	import { useRouter } from 'vue-router'
+	import { useStore } from 'vuex'
+	import rating from '@/assets/icons/rating.svg'
+
+	const store = useStore()
+	const router = useRouter()
+
+	const products = computed(() => store.getters.products)
+	const user = computed(() => store.getters.getUser)
+	function goToProducts() {
+		router.push({ name: 'ProductsPage' })
+	}
 </script>
 
 <style scoped>
@@ -270,6 +254,61 @@
 		font-weight: 700;
 	}
 
+	ion-col {
+		padding-left: 2px;
+	}
+
+	.no-link-style {
+		text-decoration: none;
+	}
+	ion-card {
+		--background: #e9ecef;
+		--color: #000000;
+		width: 100%;
+		box-sizing: border-box;
+		box-shadow: none;
+		font-weight: none;
+		border-radius: 24px;
+		padding-top: 24px;
+		height: 273px;
+	}
+	ion-card img {
+		padding-bottom: 24px;
+		width: 136px;
+		height: 136px;
+	}
+	ion-card-header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding-bottom: 0;
+	}
+
+	ion-row {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	ion-card-title {
+		margin-top: 24px;
+		--color: #000000;
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	ion-card-subtitle {
+		display: flex;
+		--color: #000000;
+		font-size: 12px;
+		font-weight: 400;
+		text-transform: none;
+		margin-top: 2px;
+		padding: 0;
+	}
+
+	ion-grid {
+		padding-right: 24px;
+	}
 	.special-offer-heading {
 		display: flex;
 		align-items: center;
@@ -292,62 +331,40 @@
 		border-radius: 20px;
 	}
 
+	.offer-item {
+		position: relative;
+	}
 	.new-product {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	ion-col {
-		padding-left: 2px;
-	}
-
-	ion-card {
-		--background: #e9ecef;
-		--color: #000000;
-		width: 100%;
-		box-sizing: border-box;
-		margin: 0;
-		box-shadow: none;
-		font-weight: none;
-		border-radius: 24px;
-		padding-top: 24px;
-		padding-bottom: 24px;
-	}
-
-	ion-card-header {
-		display: flex;
-		flex-direction: column; /* Stack children vertically */
-		align-items: flex-start; /* Align children to the start (left) */
-	}
-
-	ion-row {
-		grid-gap: 2px; /* Add gap between columns */
-	}
-	ion-card-header img {
-		margin-bottom: 14px;
-	}
-
-	ion-card-title {
-		--color: #000000;
-		font-size: 14px;
-		font-weight: 700;
-	}
-
-	ion-card-subtitle {
-		--color: #000000;
-		font-size: 12px;
-		font-weight: 400;
-		text-transform: none;
-	}
-
 	.price {
+		margin-top: 8px;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 		color: #d71921;
 	}
 
 	.price h3 {
 		font-weight: 700;
+	}
+
+	ion-button {
+		--padding-start: 34px;
+		--padding-top: 24px;
+		--padding-bottom: 24px;
+		--padding-end: 34px;
+		--background: #d71921;
+		--border-radius: 16px;
+		text-transform: none;
+		bottom: 20px;
+		right: 15px;
+	}
+
+	span ion-icon {
+		width: 64px;
 	}
 </style>

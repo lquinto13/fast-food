@@ -50,7 +50,12 @@
 						<ion-card-content>
 							<div class="price">
 								<h3>P {{ product.price }}</h3>
-								<span>*****</span>
+								<span
+									><ion-icon
+										slot="end"
+										class="rating-icon"
+										:src="rating"></ion-icon
+								></span>
 							</div>
 						</ion-card-content>
 					</ion-card>
@@ -66,6 +71,8 @@
 	import bag from '@/assets/icons/shopping-bag-alt.svg'
 	import customSearch from '@/assets/icons/search.svg'
 	import customFilter from '@/assets/icons/filter.svg'
+	import rating from '@/assets/icons/rating.svg'
+
 	import 'swiper/css'
 	import { useRouter } from 'vue-router'
 	import { computed } from 'vue'
@@ -146,12 +153,16 @@
 		width: 100%;
 		height: 100%;
 	}
+
 	ion-col {
 		padding-left: 2px;
 	}
 
 	.no-link-style {
 		text-decoration: none;
+	}
+	ion-grid {
+		padding-right: 24px;
 	}
 	ion-card {
 		--background: #e9ecef;
@@ -199,13 +210,18 @@
 	}
 
 	.price {
-		margin-top: 14px;
+		margin-top: 7px;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 		color: #d71921;
 	}
 
 	.price h3 {
 		font-weight: 700;
+	}
+
+	span ion-icon {
+		width: 64px;
 	}
 </style>

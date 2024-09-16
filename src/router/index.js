@@ -8,11 +8,11 @@ const routes = [
 	{
 		path: '/home',
 		name: 'HomePage',
-
 		component: () => import('../views/HomescreenPage.vue'),
 	},
 	{
 		path: '/products',
+		name: 'ProductsPage',
 		component: () => import('../views/ProductsPage.vue'),
 	},
 	{

@@ -5,6 +5,9 @@
 				<ion-buttons slot="start">
 					<ion-button @click="openMenu">
 						<ion-icon :src="customMenu" />
+						<div
+							v-if="user.notification > 0"
+							class="notif-icon"></div>
 					</ion-button>
 				</ion-buttons>
 				<ion-title>
@@ -33,6 +36,10 @@
 		IonTitle,
 		IonToolbar,
 	} from '@ionic/vue'
+	import { computed } from 'vue'
+	import { useStore } from 'vuex'
+	const store = useStore()
+	const user = computed(() => store.getters.getUser)
 
 	const openMenu = async () => {
 		await menuController.open()
@@ -47,5 +54,16 @@
 	ion-icon {
 		width: 30px;
 		height: 30px;
+	}
+
+	.notif-icon {
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		background-color: #edbe4c;
+		border: 1px solid #edbe4c;
+		border-radius: 100%;
+		top: 2px;
+		right: -4px;
 	}
 </style>
