@@ -52,6 +52,18 @@
 					</ion-button>
 				</div>
 			</ion-buttons>
+			<div class="reward-item">
+				<div class="reward-pic">
+					<img src="../assets/images/steak-fries-veggies.png" />
+				</div>
+				<div class="reward-text">
+					<h6>Steak Fries Veggies</h6>
+					<p>Meat</p>
+					<span class="points">
+						<ion-icon :src="crown"></ion-icon> 20 Points</span
+					>
+				</div>
+			</div>
 		</div>
 	</base-layout>
 </template>
@@ -153,7 +165,7 @@
 	.button-container {
 		display: flex;
 		justify-content: space-around;
-		gap: 12px;
+		gap: 6px;
 		margin-top: 10px;
 	}
 
@@ -161,8 +173,10 @@
 		font-weight: 400;
 		--background: #dee2e6;
 		--color: #6c757d;
-		--border-radius: 12px;
-		--padding-start: 12px;
+		--border-radius: 14px;
+		--padding-start: 14px;
+		--padding-top: 14px;
+		--padding-bottom: 14px;
 		--padding-end: 12px;
 		--height: 40px;
 		font-size: 14px;
@@ -173,5 +187,49 @@
 		--background: #f8f9fa;
 		--color: #d71921;
 		--border: 1px solid #d71921;
+	}
+
+	.reward-item {
+		padding: 12px;
+		display: flex;
+		margin-top: 14px;
+		width: 343px;
+		height: 100px;
+		background-color: #e9ecef;
+		border: 1px solid #e9ecef;
+		border-radius: 16px;
+	}
+
+	.reward-pic img {
+		width: 65px;
+		height: 55px;
+	}
+
+	.points {
+		display: flex;
+		align-items: center;
+		justify-content: start;
+	}
+
+	.points ion-icon {
+		width: 22px;
+		height: 22px;
+	}
+
+	.reward-text h6 {
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.reward-text p {
+		font-size: 12px;
+		font-weight: 400;
+		margin-bottom: 4px;
+	}
+	.points {
+		gap: 14px;
+		font-weight: 700;
+		color: #d71921;
+		font-size: 16px;
 	}
 </style>
